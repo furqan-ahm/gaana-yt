@@ -13,6 +13,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 class PlayerController extends GetxController{
 
   AudioPlayer player = AudioPlayer();
+  late AnimationController likeAnimController;
 
 
   final RxBool _playing=false.obs;
@@ -32,8 +33,19 @@ class PlayerController extends GetxController{
   
 
 
+
+  setAnimationController(AnimationController controller){
+    likeAnimController=controller;
+  }
+
   onPageChange(int i){
     play(i);
+  }
+
+  addToFav(int index){
+    likeAnimController.forward().then((value){
+      likeAnimController.reset();
+    });
   }
 
 
@@ -44,7 +56,7 @@ class PlayerController extends GetxController{
       GetSnackBar(
         title: 'Added To Current Playlist',
         message: 'Go to Player Page?',
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
         onTap: (val){
           Get.find<ViewController>().changePage(1);
         },
@@ -73,10 +85,11 @@ class PlayerController extends GetxController{
           GetSnackBar(
             title: 'Unable to play ${video.title}',
             message: 'Try playing something else',
+            duration: const Duration(seconds: 1),
           )
         );
         songs.value.remove(song);
-        songs.value=songs.value;
+        songs.value=[...songs.value];
       }
     });
   }

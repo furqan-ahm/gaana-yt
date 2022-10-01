@@ -36,6 +36,7 @@ dependencies:
   get: ^4.6.5
   just_audio: ^0.9.29
   just_audio_background: ^0.0.1-beta.7
+  lottie: ^1.4.3
   music_visualizer: ^1.0.2
   path_provider: ^2.0.11
   permission_handler: ^10.0.2
@@ -56,8 +57,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/anims/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
