@@ -1,3 +1,4 @@
+import 'package:gaana/controllers/downloadController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,7 @@ class GlobalBindings extends Bindings{
     Get.put(
       PlayerController()
     );
+    Get.put(DownloadController());
   }
 
 }

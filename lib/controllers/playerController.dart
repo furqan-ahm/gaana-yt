@@ -4,7 +4,8 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/viewController.dart';
-import 'package:gaana/models/song.dart';
+import 'package:gaana/models/songModel.dart';
+
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -50,7 +51,7 @@ class PlayerController extends GetxController{
 
 
   addSong(Video video){
-    final song=Song(video: video);
+    final song=Song.fromVideo(video);
     songs.value=[...songs.value, song];
     Get.showSnackbar(
       GetSnackBar(
