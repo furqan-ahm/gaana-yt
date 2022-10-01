@@ -20,12 +20,7 @@ class SongTile extends GetWidget<PlayerController> {
             width: 100,
             fit: BoxFit.fitHeight,
           ),
-          SizedBox(
-            width: 5,
-          ),
-          Container(
-            child: Flexible(child: Text(video.title)),
-          ),
+          Expanded(child: Text(video.title,)),
           Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(video);}, icon: Icon(Icons.playlist_play)))
         ],
       ),

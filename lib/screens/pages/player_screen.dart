@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/playerController.dart';
@@ -35,16 +36,28 @@ const PlayerScreen({ Key? key }) : super(key: key);
                 children: [
                   SizedBox(
                     height: Get.height/3,
-                    child: PageView.builder(
+                    child: Swiper(
+                      loop: false,
                       controller: controller.pageController,
-                      onPageChanged: controller.onPageChange,
+                      viewportFraction: 0.76,
+                      scale: 0.9,
+                      duration: 400,
+                      onIndexChanged: controller.onPageChange,
                       itemCount: controller.songs.value.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(child: Image.network(controller.songs.value[index].video.thumbnails.mediumResUrl, fit: BoxFit.cover,)),
+                        return Dismissible(
+                          direction: DismissDirection.up,
+                          confirmDismiss: (d)async{
+                            controller.dismissTrack(index);
+                            return true;
+                          },
+                          key: Key(controller.songs.value[index].video.id.toString()+index.toString()),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(child: Image.network(controller.songs.value[index].video.thumbnails.maxResUrl, fit: BoxFit.cover,)),
+                            ),
                           ),
                         );
                       },

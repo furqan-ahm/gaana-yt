@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/viewController.dart';
@@ -18,13 +19,13 @@ class PlayerController extends GetxController{
   final Rx<List<Song>> songs = Rx<List<Song>>([]);
   final RxDouble position = 0.0.obs;
   final RxDouble trackMaxPosition=1.0.obs;
-  final RxBool songLoading = true.obs;
+  final RxBool songLoading = false.obs;
 
   late StreamSubscription playerStateSub;
   int currentTrack = 0;
-  late ConcatenatingAudioSource playList;  
+  late ConcatenatingAudioSource playList = ConcatenatingAudioSource(children: []);  
   
-  PageController pageController= PageController(initialPage: 0, viewportFraction: 0.75);
+  SwiperController pageController= SwiperController();
 
   Song get currentSong => songs.value[currentTrack];
   bool get isPlaying => _playing.value;
@@ -39,7 +40,6 @@ class PlayerController extends GetxController{
   addSong(Video video){
     final song=Song(video: video);
     songs.value=[...songs.value, song];
-    update();
     Get.showSnackbar(
       GetSnackBar(
         title: 'Added To Current Playlist',
@@ -53,9 +53,20 @@ class PlayerController extends GetxController{
     yt.videos.streamsClient.getManifest(video.id).then((value){
       if(value.audioOnly.isNotEmpty){
         song.audioUri=value.audioOnly.first.url;
-        if(songs.value.length==1){
-          play(0);
-        }
+        playList.add(
+          AudioSource.uri(
+            song.audioUri,
+            tag: MediaItem(
+              id: video.id.value,
+              title: video.title,
+              artUri: Uri.parse(video.thumbnails.mediumResUrl)
+            )
+          )
+        ).then((value){
+          if(songs.value.length==1){
+            play(0);
+          }
+        });
       }
       else{
         Get.showSnackbar(
@@ -71,36 +82,40 @@ class PlayerController extends GetxController{
   }
 
   forward(){
-    if(currentTrack!=songs.value.length-1)pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+    if(currentTrack<songs.value.length-1)pageController.next();
   }
 
   backward(){
-    if(currentTrack!=0)pageController.previousPage(duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+    if(currentTrack!=0)pageController.previous();
   }
 
   play(int index)async{
     currentTrack=index;
-    await player.stop();
-    songLoading.value=true;
-    final AudioSource src = AudioSource.uri(
-      songs.value[index].audioUri,
-      tag: MediaItem(id: '$index', title: songs.value[index].video.title,artUri: Uri.parse(songs.value[index].video.thumbnails.mediumResUrl)),
-    );
-    player.setAudioSource(src).then((value){
-      trackMaxPosition.value=value!.inMilliseconds.toDouble();
-      player.play();
-      songLoading.value=false;
-    });
+    await player.seek(Duration.zero, index: index);
+    player.play();
   }
 
 
   flush(){
     player.stop();
+    playList.clear();
     trackMaxPosition.value=1.0;
-    pageController.jumpTo(0);
+    pageController.move(0);
     songs.value.clear();
     songs.value=[];
     currentTrack=0;
+  }
+
+  
+  void dismissTrack(int index) {
+    
+    if(player.currentIndex==index&&index==songs.value.length-1){
+      print('last');
+      player.seekToPrevious();
+    }
+    playList.removeAt(index);
+    songs.value.removeAt(index);
+    songs.value=[...songs.value];
   }
 
 
@@ -108,11 +123,25 @@ class PlayerController extends GetxController{
   void onInit() {
     _playing.bindStream(player.playingStream);
     position.bindStream(player.positionStream.map((event) => event.inMilliseconds.toDouble()));
-    
+    player.setAudioSource(playList);
+    player.currentIndexStream.listen((event) {
+      if(event!=null&&event!=currentTrack){
+        currentTrack=event;
+        print(event);
+        pageController.move(currentTrack);
+      }
+    });
+    trackMaxPosition.bindStream(player.durationStream.map((event) => event==null?1:event.inMilliseconds.toDouble()));
     playerStateSub=player.playerStateStream.listen((event) {
       if(event.processingState==ProcessingState.completed){
         player.pause();
         forward();
+      }
+      if(event.processingState==ProcessingState.buffering){
+        songLoading.value=true;
+      }
+      if(event.processingState==ProcessingState.ready){
+        songLoading.value=false;
       }
     });
     
