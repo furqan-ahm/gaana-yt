@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gaana/controllers/likeOverlayController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
