@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/favoritesController.dart';
 import 'package:gaana/controllers/playerController.dart';
-import 'package:gaana/widgets/songTile.dart';
+import 'package:gaana/widgets/favorite_tabs.dart';
 import 'package:get/get.dart';
 
 
@@ -12,25 +13,33 @@ const FavScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
-    return Container(
-      child: Column(
-        children: [
-          Obx(
-            () {
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: controller.songs.value.length,
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: [
+            const SizedBox(height: 20,),
+            const FavoriteTabs(),
+            const SizedBox(height: 10,),
+            Obx(
+              () {
+                final songs = controller.getSongs;
+    
+                return ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: songs.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      leading: controller.songs.value[index].isOffline?
-                      Image.file(File(controller.songs.value[index].thumbnailMax),)
+                      leading: songs[index].isOffline?
+                      Image.file(File(songs[index].thumbnailMax),)
                       :
-                      Image.network(controller.songs.value[index].thumbnailMax),
-                      title: Text(controller.songs.value[index].title),
+                      Image.network(songs[index].thumbnailMax),
+                      title: Text(songs[index].title),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          controller.songs.value[index].isOffline?Container():IconButton(
+                          songs[index].isOffline?Container():IconButton(
                             icon: Icon(Icons.download),
                             onPressed: (){
                               controller.download(index);
@@ -45,15 +54,15 @@ const FavScreen({ Key? key }) : super(key: key);
                         ],
                       ),
                       onTap: (){
-                        Get.find<PlayerController>().addSong(controller.songs.value[index]);
+                        Get.find<PlayerController>().addSong(songs[index]);
                       },
                     );
                   },
-                ),
-              );
-            }
-          )
-        ],
+                );
+              }
+            )
+          ],
+        ),
       ),
     );
   }

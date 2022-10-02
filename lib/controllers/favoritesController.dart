@@ -14,8 +14,14 @@ class FavoritesController extends GetxController{
   
 
   Rx<List<String>> downloading = Rx<List<String>>([]);
-
+  RxBool offlineOnly = false.obs;
   Rx<List<Song>> songs = Rx<List<Song>>([]);
+
+
+  List<Song> get getSongs{
+    return offlineOnly.value?songs.value.where((element) => element.isOffline).toList():songs.value;
+  } 
+
 
   addFavorite(Song song)async{
     await favBox.put(
