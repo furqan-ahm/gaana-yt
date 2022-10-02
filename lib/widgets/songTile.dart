@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gaana/controllers/playerController.dart';
+import 'package:gaana/models/songModel.dart';
 import 'package:get/get.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class SongTile extends GetWidget<PlayerController> {
-  const SongTile({Key? key, required this.video}) : super(key: key);
+  const SongTile({Key? key, required this.song}) : super(key: key);
 
-  final Video video;
+  final Song song;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +17,12 @@ class SongTile extends GetWidget<PlayerController> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.network(
-            video.thumbnails.mediumResUrl,
+            song.thumbnailMed,
             width: 100,
             fit: BoxFit.fitHeight,
           ),
-          Expanded(child: Text(video.title,)),
-          Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(video);}, icon: Icon(Icons.playlist_play)))
+          Expanded(child: Text(song.title,)),
+          Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(song);}, icon: Icon(Icons.playlist_play)))
         ],
       ),
     );

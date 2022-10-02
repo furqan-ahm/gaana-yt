@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gaana/constants.dart';
+import 'package:gaana/controllers/favoritesController.dart';
 import 'package:gaana/controllers/viewController.dart';
 import 'package:gaana/models/songModel.dart';
 
@@ -43,15 +44,19 @@ class PlayerController extends GetxController{
     play(i);
   }
 
-  addToFav(int index){
-    likeAnimController.forward().then((value){
-      likeAnimController.reset();
-    });
+  addToFav(){
+    final favController = Get.find<FavoritesController>();
+    if(!favController.isFav(currentSong)){
+      likeAnimController.forward().then((value){
+        likeAnimController.reverse();
+      });
+      favController.addFavorite(currentSong);
+    }
   }
 
 
-  addSong(Video video){
-    final song=Song.fromVideo(video);
+  addSong(Song song){
+
     songs.value=[...songs.value, song];
     Get.showSnackbar(
       GetSnackBar(
@@ -63,16 +68,35 @@ class PlayerController extends GetxController{
         },
       ),
     );
-    yt.videos.streamsClient.getManifest(video.id).then((value){
+    if(song.path!=null){
+      playList.add(
+        AudioSource.uri(
+          Uri.parse(song.path!),
+          tag: MediaItem(
+            id: song.videoId,
+            title: song.title,
+            artUri: Uri.parse(song.thumbnailMed)
+          )
+        )
+      ).then((value){
+        if(songs.value.length==1){
+          play(0);
+        }
+      });
+
+      return;
+    }
+    yt.videos.streamsClient.getManifest(song.videoId).then((value){
       if(value.audioOnly.isNotEmpty){
+        print('Codec is'+value.audioOnly.first.audioCodec);
         song.audioUri=value.audioOnly.first.url;
         playList.add(
           AudioSource.uri(
             song.audioUri,
             tag: MediaItem(
-              id: video.id.value,
-              title: video.title,
-              artUri: Uri.parse(video.thumbnails.mediumResUrl)
+              id: song.videoId,
+              title: song.title,
+              artUri: Uri.parse(song.thumbnailMed)
             )
           )
         ).then((value){
@@ -84,7 +108,7 @@ class PlayerController extends GetxController{
       else{
         Get.showSnackbar(
           GetSnackBar(
-            title: 'Unable to play ${video.title}',
+            title: 'Unable to play ${song.title}',
             message: 'Try playing something else',
             duration: const Duration(seconds: 1),
           )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/searchController.dart';
+import 'package:gaana/models/songModel.dart';
 import 'package:gaana/player.dart';
 import 'package:gaana/widgets/songTile.dart';
 import 'package:get/get.dart';
@@ -85,7 +86,7 @@ const HomeScreen({ Key? key }) : super(key: key);
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: controller.results.length,
-                      itemBuilder: (context, index)=>SongTile(video: controller.results[index])
+                      itemBuilder: (context, index)=>SongTile(song: Song.fromVideo(controller.results[index]))
                     );
               }
             ),

@@ -41,8 +41,8 @@ const MainScreen({ Key? key }) : super(key: key);
                 icon: NavPlayerItem()
               ),
               BottomNavigationBarItem(
-                label: 'Downloads',
-                icon: Icon(controller.currentIndex.value==2?Icons.favorite:Icons.favorite_outline)
+                label: 'Fav',
+                icon: Icon(controller.currentIndex.value==2?Icons.library_music:Icons.library_music_outlined)
               )
             ],
           ),

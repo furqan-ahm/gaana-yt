@@ -4,6 +4,7 @@ import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/downloadController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/widgets/like_overlay.dart';
+import 'package:gaana/widgets/playerCard.dart';
 import 'package:gaana/widgets/trackSlider.dart';
 import 'package:get/get.dart';
 
@@ -49,26 +50,7 @@ const PlayerScreen({ Key? key }) : super(key: key);
                           onIndexChanged: controller.onPageChange,
                           itemCount: controller.songs.value.length,
                           itemBuilder: (context, index) {
-                            return Dismissible(
-                              direction: DismissDirection.up,
-                              confirmDismiss: (d)async{
-                                controller.dismissTrack(index);
-                                return true;
-                              },
-                              key: Key(controller.songs.value[index].videoId.toString()+index.toString()),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 7),
-                                child: GestureDetector(
-                                  onDoubleTap: (){
-                                    controller.addToFav(index);
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(child: Image.network(controller.songs.value[index].thumbnailMax, fit: BoxFit.cover,)),
-                                  ),
-                                ),
-                              ),
-                            );
+                            return PlayerCard(index: index, song: controller.songs.value[index]);
                           },
                         ),
                       ),
@@ -78,7 +60,7 @@ const PlayerScreen({ Key? key }) : super(key: key);
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(onPressed: (){}, icon: Icon(Icons.loop, size: 32,)),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.loop, size: 26,)),
                           IconButton(onPressed: (){controller.backward();}, icon: Icon(Icons.fast_rewind, size: 37,)),
                           FloatingActionButton.large(
                             onPressed: (){
@@ -89,8 +71,8 @@ const PlayerScreen({ Key? key }) : super(key: key);
                           ),
                           IconButton(onPressed: (){controller.forward();}, icon: Icon(Icons.fast_forward, size: 37,)),
                           IconButton(onPressed: (){
-                            Get.find<DownloadController>().downloadSong(controller.currentSong);
-                          }, icon: Icon(Icons.favorite_outline, size: 32,)),
+                            controller.addToFav();
+                          }, icon: Icon(Icons.favorite_outline, size: 26,)),
                         ],
                       )
                     ],
