@@ -151,8 +151,10 @@ class PlayerController extends GetxController{
       print('last');
       player.seekToPrevious();
     }
+    
     playList.removeAt(index);
     songs.value.removeAt(index);
+    print('new length is ${songs.value.length}');
     songs.value=[...songs.value];
   }
 
@@ -165,7 +167,6 @@ class PlayerController extends GetxController{
     player.currentIndexStream.listen((event) {
       if(event!=null&&event!=currentTrack){
         currentTrack=event;
-        print(event);
         pageController.move(currentTrack);
       }
     });

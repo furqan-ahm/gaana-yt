@@ -24,8 +24,9 @@ class DownloadController extends GetxController{
       var file = File('${appDirectory.path}/${song.videoId}.mp3');
       var fileStream = file.openWrite(mode: FileMode.write);
 
+      
       await stream.pipe(fileStream);
-
+      
       await fileStream.flush();
       await fileStream.close();
 

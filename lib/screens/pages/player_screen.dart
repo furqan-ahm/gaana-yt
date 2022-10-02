@@ -8,6 +8,8 @@ import 'package:gaana/widgets/playerCard.dart';
 import 'package:gaana/widgets/trackSlider.dart';
 import 'package:get/get.dart';
 
+import '../../models/songModel.dart';
+
 
 class PlayerScreen extends GetView<PlayerController> {
 const PlayerScreen({ Key? key }) : super(key: key);
@@ -50,7 +52,16 @@ const PlayerScreen({ Key? key }) : super(key: key);
                           onIndexChanged: controller.onPageChange,
                           itemCount: controller.songs.value.length,
                           itemBuilder: (context, index) {
-                            return PlayerCard(index: index, song: controller.songs.value[index]);
+                            Song song = controller.songs.value[index];
+                            return Dismissible(
+                                    direction: DismissDirection.up,
+                                    confirmDismiss: (d)async{
+                                      controller.dismissTrack(index);
+                                      return true;
+                                    },
+                                    key: UniqueKey(),
+                                    child: PlayerCard(song: song,)
+                                  );
                           },
                         ),
                       ),
