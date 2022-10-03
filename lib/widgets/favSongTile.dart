@@ -4,8 +4,8 @@ import 'package:gaana/models/songModel.dart';
 import 'package:get/get.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class SongTile extends GetWidget<PlayerController> {
-  const SongTile({Key? key, required this.song}) : super(key: key);
+class FavSongTile extends GetWidget<PlayerController> {
+  const FavSongTile({Key? key, required this.song}) : super(key: key);
 
   final Song song;
 
@@ -22,7 +22,7 @@ class SongTile extends GetWidget<PlayerController> {
               song.thumbnailMed,
               width: 60,
               height: 60,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
             ),
           ),
           SizedBox(width: 10,),
