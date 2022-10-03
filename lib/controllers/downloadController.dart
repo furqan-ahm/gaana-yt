@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:gaana/constants.dart';
 import 'package:get/get.dart';
-import 'package:image_downloader/image_downloader.dart';
+import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../models/songModel.dart';
@@ -31,22 +31,27 @@ class DownloadController extends GetxController{
       await fileStream.close();
 
       print(song.thumbnailMax);
-      final thumbnailId = await ImageDownloader.downloadImage(song.thumbnailMax,
-                            destination: AndroidDestinationType.custom(directory: 'thumbnails')
-                            ..inExternalFilesDir()
-                            ..subDirectory("/${song.videoId}.jpg"),
-        );
-      final thumbnail = await ImageDownloader.findPath(thumbnailId!);
+      final thumbnail =await downloadThumbnail(song);
 
-      song.thumbnailMax=thumbnail!;
+      song.thumbnailMax=thumbnail;
 
       song.path = '${appDirectory.path}/${song.videoId}.mp3';
       return '${appDirectory.path}/${song.videoId}.mp3';
     }
   }
 
-  downloadThumbnail(Song song) async{
+  Future<String> downloadThumbnail(Song song) async{
+    final response = await get(Uri.parse(song.thumbnailMax));
 
+    final fileExt=song.thumbnailMax.split('.').last;
+
+    final thumbnailPath = appDirectory.path+'/Thumbnail${song.videoId}.$fileExt';
+    File file = File(thumbnailPath);
+
+    file.writeAsBytesSync(
+      response.bodyBytes
+    );
+    return thumbnailPath;
   }
 
 

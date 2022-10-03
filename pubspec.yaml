@@ -36,7 +36,7 @@ dependencies:
     sdk: flutter
   get: ^4.6.5
   hive: ^2.2.3
-  image_downloader: ^0.31.0
+  http: ^0.13.5
   just_audio: ^0.9.29
   just_audio_background: ^0.0.1-beta.7
   lottie: ^1.4.3
