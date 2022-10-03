@@ -35,6 +35,23 @@ class Song {
     );
   }
 
+
+  String get length{
+    int seconds = duration!.inSeconds;
+    int minutes = seconds~/60;
+    int hours = minutes~/60;
+
+    seconds=seconds%60;
+    minutes=minutes%60;
+    hours=hours;
+
+    final result ='${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    if(hours!=0)return '${hours.toString().padLeft(2, '0')}:$result';
+
+    return result;
+  }
+
+
   static Song fromMap(Map data) {
     return Song(
         videoId: data['id'],

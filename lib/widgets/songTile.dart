@@ -25,8 +25,15 @@ class SongTile extends GetWidget<PlayerController> {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(width: 10,),
-          Expanded(child: Text(song.title, overflow: TextOverflow.ellipsis, maxLines: 2,)),
+          const SizedBox(width: 10,),
+          Expanded(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(song.title, overflow: TextOverflow.ellipsis, maxLines: 2,),
+              SizedBox(height: 2,),
+              Text('${song.length}', style: TextStyle(color: Colors.grey),)
+            ],
+          )),
           Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(song);}, icon: Icon(Icons.playlist_play)))
         ],
       ),
