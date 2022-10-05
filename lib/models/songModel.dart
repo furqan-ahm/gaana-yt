@@ -37,7 +37,7 @@ class Song {
 
 
   String get length{
-    int seconds = duration!.inSeconds;
+    int seconds = duration==null?0:duration!.inSeconds;
     int minutes = seconds~/60;
     int hours = minutes~/60;
 

@@ -3,6 +3,8 @@ import 'package:gaana/constants.dart';
 import 'package:get/get.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+import '../models/songModel.dart';
+
 class SearchController extends GetxController{
 
   Rx<VideoSearchList?> _result=Rx<VideoSearchList?>(null);
@@ -12,7 +14,10 @@ class SearchController extends GetxController{
   final RxBool _loading=true.obs;
 
   bool get loading => _loading.value;
-  VideoSearchList get results => _result.value!;
+  List<Song> get results{
+
+    return _result.value!.where((vid) => !vid.isLive).map((vid) => Song.fromVideo(vid)).toList();
+  }
 
   search(String query) async{
    _loading.value=true;

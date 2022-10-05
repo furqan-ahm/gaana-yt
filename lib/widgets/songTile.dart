@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/models/songModel.dart';
 import 'package:get/get.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class SongTile extends GetWidget<PlayerController> {
   const SongTile({Key? key, required this.song}) : super(key: key);
@@ -11,8 +10,9 @@ class SongTile extends GetWidget<PlayerController> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -30,11 +30,11 @@ class SongTile extends GetWidget<PlayerController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(song.title, overflow: TextOverflow.ellipsis, maxLines: 2,),
-              SizedBox(height: 2,),
-              Text('${song.length}', style: TextStyle(color: Colors.grey),)
+              const SizedBox(height: 2,),
+              song.duration!=null?Text(song.length, style: const TextStyle(color: Colors.grey),):Container()
             ],
           )),
-          Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(song);}, icon: Icon(Icons.playlist_play)))
+          Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(song);}, icon: const Icon(Icons.playlist_play)))
         ],
       ),
     );

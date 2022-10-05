@@ -86,7 +86,7 @@ const HomeScreen({ Key? key }) : super(key: key);
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: controller.results.length,
-                      itemBuilder: (context, index)=>SongTile(song: Song.fromVideo(controller.results[index]))
+                      itemBuilder: (context, index)=>SongTile(song: controller.results[index])
                     );
               }
             ),
