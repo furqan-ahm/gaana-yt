@@ -16,13 +16,18 @@ class SongTile extends GetWidget<PlayerController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              song.thumbnailMed,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
+          GestureDetector(
+            onTap: (){
+              controller.addSong(song);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                song.thumbnailMed,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 10,),

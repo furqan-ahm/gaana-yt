@@ -25,22 +25,9 @@ class FavSongTile extends GetWidget<FavoritesController> {
                 Image.network(song.thumbnailMax, width: 60, height: 60, fit: BoxFit.cover,),
               ),
               title: Text(song.title, maxLines: 2, overflow: TextOverflow.ellipsis,),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  song.isOffline?Container():IconButton(
-                    icon: Icon(Icons.download),
-                    onPressed: (){
-                      controller.download(index);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: (){
-                      controller.delete(index);
-                    },
-                  ),
-                ],
+              trailing: IconButton(
+                onPressed: (){},
+                icon: Icon(Icons.more_vert_rounded)
               ),
               onTap: (){
                 Get.find<PlayerController>().addSong(song);
