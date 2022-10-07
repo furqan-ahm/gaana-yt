@@ -1,35 +1,51 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:gaana/controllers/favoritesController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/models/songModel.dart';
 import 'package:get/get.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class FavSongTile extends GetWidget<PlayerController> {
-  const FavSongTile({Key? key, required this.song}) : super(key: key);
+class FavSongTile extends GetWidget<FavoritesController> {
+  const FavSongTile({Key? key, required this.song, required this.index}) : super(key: key);
 
   final Song song;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              song.thumbnailMed,
-              width: 60,
-              height: 60,
-              fit: BoxFit.fitHeight,
+    return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: ListTile(
+              leading: 
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: song.isOffline?
+                Image.file(File(song.thumbnailMax), width: 60, height: 60, fit: BoxFit.cover,):
+                Image.network(song.thumbnailMax, width: 60, height: 60, fit: BoxFit.cover,),
+              ),
+              title: Text(song.title, maxLines: 2, overflow: TextOverflow.ellipsis,),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  song.isOffline?Container():IconButton(
+                    icon: Icon(Icons.download),
+                    onPressed: (){
+                      controller.download(index);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: (){
+                      controller.delete(index);
+                    },
+                  ),
+                ],
+              ),
+              onTap: (){
+                Get.find<PlayerController>().addSong(song);
+              },
             ),
-          ),
-          SizedBox(width: 10,),
-          Expanded(child: Text(song.title, overflow: TextOverflow.ellipsis, maxLines: 2,)),
-          Align(alignment:Alignment.centerRight,child: IconButton(onPressed: () {controller.addSong(song);}, icon: Icon(Icons.playlist_play)))
-        ],
-      ),
-    );
+          );
   }
 }
