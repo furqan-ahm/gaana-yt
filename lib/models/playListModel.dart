@@ -16,7 +16,7 @@ class PlayList{
   static PlayList fromMap(Map data){
     return PlayList(
       name: data['name'],
-      songs: (data['songs'] as List<Map>).map((e) => Song.fromMap(e)).toList()
+      songs: (data['songs'] as List).map((e) => Song.fromMap(e)).toList()
     );
   }
 

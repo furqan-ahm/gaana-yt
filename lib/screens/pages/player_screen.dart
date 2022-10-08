@@ -24,18 +24,24 @@ const PlayerScreen({ Key? key }) : super(key: key);
       children: [
         Obx(
           (){
-            return controller.songs.value.isNotEmpty?Container(
+            return controller.songs.value.isNotEmpty?SizedBox(
               height: Size.infinite.height,
               width: Size.infinite.width,
               child: Stack(
                 children: [
                   Align(
                         alignment: Alignment.topRight,
-                        child: IconButton(
-                          icon: Icon(Icons.delete,color: Colors.white,),
-                          onPressed: (){
-                            controller.flush();
-                          },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 30,),
+                            IconButton(
+                              icon: const Icon(Icons.playlist_add,color: Colors.white,),
+                              onPressed: (){
+                                controller.savePlayList();
+                              },
+                            ),
+                          ],
                         ),
                       ),
                   Column(
@@ -65,25 +71,25 @@ const PlayerScreen({ Key? key }) : super(key: key);
                           },
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      TrackSlider(),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
+                      const TrackSlider(),
+                      const SizedBox(height: 20,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(onPressed: (){}, icon: Icon(Icons.loop, size: 26,)),
+                          IconButton(onPressed: (){}, icon: const Icon(Icons.loop, size: 26,)),
                           IconButton(onPressed: (){controller.backward();}, icon: Icon(Icons.fast_rewind, size: 37,)),
                           FloatingActionButton.large(
                             onPressed: (){
                               controller.togglePlay();
                             },
                             backgroundColor: primaryColor,
-                            child: controller.songLoading.value?CircularProgressIndicator(color: Colors.white,):Icon(!controller.isPlaying?Icons.play_arrow:Icons.pause, color: Colors.white, size: 42,),
+                            child: controller.songLoading.value?const CircularProgressIndicator(color: Colors.white,):Icon(!controller.isPlaying?Icons.play_arrow:Icons.pause, color: Colors.white, size: 42,),
                           ),
-                          IconButton(onPressed: (){controller.forward();}, icon: Icon(Icons.fast_forward, size: 37,)),
+                          IconButton(onPressed: (){controller.forward();}, icon: const Icon(Icons.fast_forward, size: 37,)),
                           IconButton(onPressed: (){
                             controller.addToFav();
-                          }, icon: Icon(Icons.favorite_outline, size: 26,)),
+                          }, icon: const Icon(Icons.favorite_outline, size: 26,)),
                         ],
                       )
                     ],

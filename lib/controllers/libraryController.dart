@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:gaana/controllers/downloadController.dart';
+import 'package:gaana/models/playListModel.dart';
 import 'package:gaana/models/songModel.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -10,13 +12,17 @@ class LibraryController extends GetxController{
 
   
   late CollectionBox<Map> favBox;
+  late CollectionBox<Map> playListBox;
   late BoxCollection db;
   
 
   Rx<List<String>> downloading = Rx<List<String>>([]);
   RxBool offlineOnly = false.obs;
   Rx<List<Song>> songs = Rx<List<Song>>([]);
+  Rx<List<PlayList>> playlists = Rx<List<PlayList>>([]);
 
+
+  final TextEditingController playlistNameController = TextEditingController();
 
   List<Song> get getSongs{
     return offlineOnly.value?songs.value.where((element) => element.isOffline).toList():songs.value;
@@ -31,16 +37,37 @@ class LibraryController extends GetxController{
   }
 
 
+
   initDataBase()async{
 
     Directory path =await getApplicationDocumentsDirectory();
 
-    db = await BoxCollection.open('db', {'favorites'}, path: path.path);
+    db = await BoxCollection.open('db', {'favorites', 'playlists'}, path: path.path);
     favBox = await db.openBox('favorites');
+    playListBox = await db.openBox('playlists');
     favBox.getAllValues().then((value){
       songs.value=value.values.map((e) => Song.fromMap(e)).toList();
     });
+    playListBox.getAllValues().then((value){
+      playlists.value=value.values.map((e) => PlayList.fromMap(e)).toList();
+    });
   }
+
+
+  addPlayList(PlayList list)async{
+
+    if(playlists.value.where((element) => element.name==list.name).isNotEmpty){
+      Get.snackbar('Error creating', 'Playlist with that name already exists', duration: const Duration(seconds: 2), snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    await playListBox.put(
+      list.name, list.toMap()
+    );
+    playlists.value=[...playlists.value,list];
+  }
+
+
 
   @override
   void onInit() {

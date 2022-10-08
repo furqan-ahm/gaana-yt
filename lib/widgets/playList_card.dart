@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gaana/models/playListModel.dart';
+
+import '../controllers/playerController.dart';
 
 class PlayListCard extends StatelessWidget {
 const PlayListCard({ Key? key, required this.list }) : super(key: key);
@@ -26,9 +29,16 @@ const PlayListCard({ Key? key, required this.list }) : super(key: key);
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             child: AspectRatio(
               aspectRatio: 6/4.5,
-              child: Container(
+              child: Material(
                 color: Colors.black54,
-                child: Center(child: Text(list.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),)),
+                child: InkWell(
+                  onTap: (){
+                    Get.find<PlayerController>().addPlayList(list);
+                  },
+                  child: Center(
+                    child: Text(list.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                  ),
+                ),
               ),
             ),
           )

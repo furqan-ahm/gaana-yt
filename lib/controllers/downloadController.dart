@@ -29,8 +29,7 @@ class DownloadController extends GetxController{
       
       await fileStream.flush();
       await fileStream.close();
-
-      print(song.thumbnailMax);
+      
       final thumbnail =await downloadThumbnail(song);
 
       song.thumbnailMax=thumbnail;

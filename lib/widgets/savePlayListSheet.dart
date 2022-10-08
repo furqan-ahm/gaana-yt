@@ -42,8 +42,9 @@ class SavePlayListSheet extends GetWidget<LibraryController> {
             borderRadius: BorderRadius.circular(11),
             child: InkWell(
               onTap: () {
-                controller.addPlayList(PlayList(name: controller.playlistNameController.text, songs: songs));
                 Get.back();
+                controller.addPlayList(PlayList(name: controller.playlistNameController.text, songs: songs));
+                controller.playlistNameController.clear();
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),

@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/libraryController.dart';
 import 'package:gaana/controllers/viewController.dart';
 import 'package:gaana/models/songModel.dart';
+import 'package:gaana/widgets/savePlayListSheet.dart';
 
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+
+import '../models/playListModel.dart';
 
 class PlayerController extends GetxController{
 
@@ -54,19 +58,28 @@ class PlayerController extends GetxController{
   }
 
 
-  addSong(Song song){
+  addPlayList(PlayList list)async{
+    await flush();
+    list.songs.forEach((song) {
+      addSong(song, true);
+    });
+  }
+
+
+
+  addSong(Song song, [isPlayList=false]){
 
     songs.value=[...songs.value, song];
-    Get.showSnackbar(
-      GetSnackBar(
-        title: 'Added To Current Playlist',
-        message: 'Go to Player Page?',
+    if(!isPlayList) {
+      Get.snackbar(
+        'Added To Current Playlist',
+        'Go to Player Page?',
         duration: const Duration(seconds: 1),
         onTap: (val){
           Get.find<ViewController>().changePage(1);
         },
-      ),
-    );
+      );
+    }
     if(song.path!=null){
       playList.add(
         AudioSource.uri(
@@ -99,7 +112,7 @@ class PlayerController extends GetxController{
             )
           )
         ).then((value){
-          if(songs.value.length==1){
+          if(currentTrack==0){
             play(0);
           }
         });
@@ -196,6 +209,12 @@ class PlayerController extends GetxController{
     playerStateSub.cancel();
 
     super.onClose();
+  }
+
+  void savePlayList() async{
+    await Get.bottomSheet(
+      SavePlayListSheet(songs: songs.value,)
+    );
   }
 
 }

@@ -22,7 +22,7 @@ const HomeScreen({ Key? key }) : super(key: key);
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Center(
@@ -44,7 +44,7 @@ const HomeScreen({ Key? key }) : super(key: key);
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Row(
               children: [
                 Expanded(
@@ -69,14 +69,14 @@ const HomeScreen({ Key? key }) : super(key: key);
                 ),
                 FloatingActionButton(
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.search),
+                  child: const Icon(Icons.search),
                   onPressed: (){
                     if(controller.searchTextController.text.isNotEmpty)controller.search(controller.searchTextController.text);
                   }
                 )
               ],
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Obx(
               () {
                 return controller.loading?
