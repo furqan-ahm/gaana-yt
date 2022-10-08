@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/models/songModel.dart';
@@ -22,12 +23,15 @@ class SongTile extends GetWidget<PlayerController> {
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                song.thumbnailMed,
+              child: CachedNetworkImage(
+                imageUrl: song.thumbnailMed,
                 width: 60,
                 height: 60,
                 fit: BoxFit.cover,
-              ),
+                errorWidget: (context, url, error) {
+                  return Icon(Icons.music_note);
+                },
+              )
             ),
           ),
           const SizedBox(width: 10,),
