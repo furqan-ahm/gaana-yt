@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gaana/constants.dart';
-import 'package:gaana/controllers/favoritesController.dart';
+import 'package:gaana/controllers/libraryController.dart';
 import 'package:gaana/controllers/viewController.dart';
 import 'package:gaana/models/songModel.dart';
 
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class PlayerController extends GetxController{
 
@@ -45,7 +44,7 @@ class PlayerController extends GetxController{
   }
 
   addToFav(){
-    final favController = Get.find<FavoritesController>();
+    final favController = Get.find<LibraryController>();
     if(!favController.isFav(currentSong)){
       likeAnimController.forward().then((value){
         likeAnimController.reverse();

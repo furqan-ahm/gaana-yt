@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
-class FavoritesController extends GetxController{
+class LibraryController extends GetxController{
 
   
   late CollectionBox<Map> favBox;
@@ -62,7 +62,7 @@ class FavoritesController extends GetxController{
   void delete(int index)async{
     await favBox.delete(songs.value[index].videoId);
     if(songs.value[index].isOffline){
-      File(songs.value[index].path!).delete();
+      File(songs.value[index].path!).exists().then((value) {if(value)File(songs.value[index].path!).delete();});
     }
     songs.value.removeAt(index);
     songs.value=[...songs.value];
@@ -78,6 +78,7 @@ class FavoritesController extends GetxController{
       downloading.value.remove(songs.value[index].videoId);
       downloading.value=[...downloading.value];
       songs.value=[...songs.value];
+      print('done');
     }
   }
 

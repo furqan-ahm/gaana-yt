@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/viewController.dart';
-import 'package:gaana/screens/pages/fav_screen.dart';
+import 'package:gaana/screens/pages/library_screen.dart';
 import 'package:gaana/screens/pages/home_screen.dart';
 import 'package:gaana/screens/pages/player_screen.dart';
 import 'package:gaana/widgets/navPlayerItem.dart';
@@ -55,7 +55,7 @@ const MainScreen({ Key? key }) : super(key: key);
                   children: const[
                     HomeScreen(),
                     PlayerScreen(),
-                    FavScreen()
+                    LibraryScreen()
                   ],
                 ),
               ),
