@@ -1,16 +1,41 @@
-# gaana
 
-A new Flutter project.
+# GaanaYT
+A simplistic music player app which allows you to play songs or audio of any video from youtube in general.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Background Play
+- Play Any Song from youtube
+- Create playlists to your liking
+- Download Songs in Library
+- Like/Heart a song to save it in Library
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Screenshots
+
+![Home](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/home.png)
+![Library](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/library.png)
+![Player](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/player.png)
+
+
+## Roadmap
+
+- Playlist customization
+- Proper Sequence of Songs in Playlist
+- Offline Only Mode
+
+
+## Packages Used
+
+ - [GetX](https://pub.dev/packages/get) - For State Management and Dependency Injection
+ - [Youtube Explode Dart](https://pub.dev/packages/youtube_explode_dart) - For getting videos and their streams from youtube
+ - [Hive](https://pub.dev/packages/hive) - as a Database for storing playlists and songs data
+ - [just_audio](https://pub.dev/packages/just_audio) - For playing audio streams and files
+ - [just_audio_background](https://pub.dev/packages/just_audio_background) - For background audio playing
+ - [Lottie](https://pub.dev/packages/lottie) - For like animation
+ - [music_visualizer](https://pub.dev/packages/music_visualizer) - For animated visualizer widget
+ - [card_swiper](https://pub.dev/packages/card_swiper) - For song cards on player screen
+ - [cached_network_image](https://pub.dev/packages/card_swiper) - For video thumbnails
+
