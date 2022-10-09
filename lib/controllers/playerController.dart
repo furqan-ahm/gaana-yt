@@ -68,8 +68,6 @@ class PlayerController extends GetxController{
     }
   }
 
-
-
   addSong(Song song, [isPlayList=false]){
 
     if(!isPlayList) {
@@ -221,7 +219,7 @@ class PlayerController extends GetxController{
 
   void savePlayList() async{
     await Get.bottomSheet(
-      SavePlayListSheet(songs: songs.value,)
+      SavePlayListSheet(songs: songs.value.toList(),)
     );
   }
 

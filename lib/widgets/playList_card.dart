@@ -51,7 +51,12 @@ class _PlayListCardState extends State<PlayListCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           IconButton(
-                              onPressed: () {controller.deletePlayList(widget.list);}, icon: const Icon(Icons.delete)),
+                            onPressed: () {
+                              setState(() => selected = !selected);
+                              controller.deletePlayList(widget.list);
+                            },
+                            icon: const Icon(Icons.delete)
+                          ),
                           IconButton(
                               onPressed: () {}, icon: const Icon(Icons.edit))
                         ],
@@ -63,6 +68,9 @@ class _PlayListCardState extends State<PlayListCard> {
                         child: Center(
                           child: Text(
                             widget.list.name,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.fade,
                             style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
