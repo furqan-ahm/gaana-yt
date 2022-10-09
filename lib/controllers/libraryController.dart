@@ -20,6 +20,7 @@ class LibraryController extends GetxController{
   RxBool offlineOnly = false.obs;
   Rx<List<Song>> songs = Rx<List<Song>>([]);
   Rx<List<PlayList>> playlists = Rx<List<PlayList>>([]);
+  RxInt selectedPlayListCard=(-1).obs;
 
 
   final TextEditingController playlistNameController = TextEditingController();
@@ -56,6 +57,8 @@ class LibraryController extends GetxController{
 
   addPlayList(PlayList list)async{
 
+    if(list.name.isEmpty)return;
+    
     if(playlists.value.where((element) => element.name==list.name).isNotEmpty){
       Get.snackbar('Error creating', 'Playlist with that name already exists', duration: const Duration(seconds: 2), snackPosition: SnackPosition.BOTTOM);
       return;
@@ -65,6 +68,14 @@ class LibraryController extends GetxController{
       list.name, list.toMap()
     );
     playlists.value=[...playlists.value,list];
+  }
+
+
+  deletePlayList(PlayList list)async{
+    await playListBox.delete(list.name);
+    playlists.value.removeWhere((element) => element.name==list.name);
+    playlists.value=[...playlists.value];
+    print(playlists.value.first.name);
   }
 
 
