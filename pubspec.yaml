@@ -31,7 +31,6 @@ environment:
 dependencies:
   cached_network_image: ^3.2.2
   card_swiper: ^2.0.4
-  connectivity_plus: ^2.3.7
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -43,7 +42,6 @@ dependencies:
   lottie: ^1.4.3
   music_visualizer: ^1.0.2
   path_provider: ^2.0.11
-  permission_handler: ^10.0.2
   youtube_explode_dart: ^1.12.1
 
 dev_dependencies:
