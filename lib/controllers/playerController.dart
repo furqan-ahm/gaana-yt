@@ -158,7 +158,6 @@ class PlayerController extends GetxController{
     playList.clear();
     trackMaxPosition.value=1.0;
     pageController.move(0);
-    songs.value.clear();
     songs.value=[];
     currentTrack=0;
   }
