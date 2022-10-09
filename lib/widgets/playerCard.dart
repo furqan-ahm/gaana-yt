@@ -14,10 +14,9 @@ const PlayerCard({ Key? key, required this.song }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 7),
       child: GestureDetector(
         onDoubleTap: (){
-          print('here');
           controller.addToFav();
         },
         child: ClipRRect(

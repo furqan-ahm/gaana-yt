@@ -36,7 +36,7 @@ const PlayListCard({ Key? key, required this.list }) : super(key: key);
                     Get.find<PlayerController>().addPlayList(list);
                   },
                   child: Center(
-                    child: Text(list.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                    child: Text(list.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
                   ),
                 ),
               ),
