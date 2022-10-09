@@ -5,6 +5,7 @@ import 'package:gaana/screens/pages/library_screen.dart';
 import 'package:gaana/screens/pages/home_screen.dart';
 import 'package:gaana/screens/pages/player_screen.dart';
 import 'package:gaana/widgets/navPlayerItem.dart';
+import 'package:gaana/widgets/playerFloatingButton.dart';
 import 'package:get/get.dart';
 import 'package:music_visualizer/music_visualizer.dart';
 
@@ -22,6 +23,7 @@ const MainScreen({ Key? key }) : super(key: key);
       () {
         return Scaffold(
           extendBody: true,
+          floatingActionButton: controller.currentIndex.value==1?Container():const PlayerFloatingButton(),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.transparent,
             selectedItemColor: primaryColor,
