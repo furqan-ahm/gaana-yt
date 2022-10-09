@@ -5,6 +5,7 @@ import 'package:gaana/controllers/downloadController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/widgets/like_overlay.dart';
 import 'package:gaana/widgets/playerCard.dart';
+import 'package:gaana/widgets/playerControls.dart';
 import 'package:gaana/widgets/trackSlider.dart';
 import 'package:get/get.dart';
 
@@ -74,35 +75,18 @@ const PlayerScreen({ Key? key }) : super(key: key);
                       const SizedBox(height: 20,),
                       const TrackSlider(),
                       const SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(onPressed: (){}, icon: const Icon(Icons.loop, size: 26,)),
-                          IconButton(onPressed: (){controller.backward();}, icon: Icon(Icons.fast_rewind, size: 37,)),
-                          FloatingActionButton.large(
-                            onPressed: (){
-                              controller.togglePlay();
-                            },
-                            backgroundColor: primaryColor,
-                            child: controller.songLoading.value?const CircularProgressIndicator(color: Colors.white,):Icon(!controller.isPlaying?Icons.play_arrow:Icons.pause, color: Colors.white, size: 42,),
-                          ),
-                          IconButton(onPressed: (){controller.forward();}, icon: const Icon(Icons.fast_forward, size: 37,)),
-                          IconButton(onPressed: (){
-                            controller.addToFav();
-                          }, icon: const Icon(Icons.favorite_outline, size: 26,)),
-                        ],
-                      )
+                      const PlayerControls()
                     ],
                   ),
                 ],
               ),
             ):
-            Center(
+            const Center(
               child: Text('Nothing to play'),
             );
           }
         ),
-        IgnorePointer(child: LikeOverlay())
+        const IgnorePointer(child: LikeOverlay())
       ],
     );
   }

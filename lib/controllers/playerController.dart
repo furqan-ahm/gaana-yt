@@ -20,12 +20,14 @@ class PlayerController extends GetxController{
   AudioPlayer player = AudioPlayer();
   late AnimationController likeAnimController;
 
+  final _loopModes = [LoopMode.off, LoopMode.one,LoopMode.all]; 
 
   final RxBool _playing=false.obs;
   final Rx<List<Song>> songs = Rx<List<Song>>([]);
   final RxDouble position = 0.0.obs;
   final RxDouble trackMaxPosition=1.0.obs;
   final RxBool songLoading = false.obs;
+  final Rx<LoopMode> loomMode=Rx<LoopMode>(LoopMode.off);
 
   late StreamSubscription playerStateSub;
   int currentTrack = 0;
@@ -36,7 +38,7 @@ class PlayerController extends GetxController{
   Song get currentSong => songs.value[currentTrack];
   bool get isPlaying => _playing.value;
   
-
+  bool _autoPageChange=false;
 
 
   setAnimationController(AnimationController controller){
@@ -44,7 +46,8 @@ class PlayerController extends GetxController{
   }
 
   onPageChange(int i){
-    play(i);
+    if(!_autoPageChange)play(i);
+    _autoPageChange=false;
   }
 
   addToFav(){
@@ -60,16 +63,15 @@ class PlayerController extends GetxController{
 
   addPlayList(PlayList list)async{
     await flush();
-    list.songs.forEach((song) {
+    for (var song in list.songs) {
       addSong(song, true);
-    });
+    }
   }
 
 
 
   addSong(Song song, [isPlayList=false]){
 
-    songs.value=[...songs.value, song];
     if(!isPlayList) {
       Get.snackbar(
         'Added To Current Playlist',
@@ -91,17 +93,21 @@ class PlayerController extends GetxController{
           )
         )
       ).then((value){
-        if(songs.value.length==1){
+        if(currentTrack==0&&!isPlaying){
           play(0);
         }
       });
-
+      
+      songs.value=[...songs.value, song];
       return;
     }
     yt.videos.streamsClient.getManifest(song.videoId).then((value){
       if(value.audioOnly.isNotEmpty){
-        print('Codec is'+value.audioOnly.first.audioCodec);
-        song.audioUri=value.audioOnly.first.url;
+        final list = value.audioOnly.toList();
+        list.sort(
+          (a,b)=>b.bitrate.compareTo(a.bitrate)
+        );
+        song.audioUri=list.first.url;
         playList.add(
           AudioSource.uri(
             song.audioUri,
@@ -112,10 +118,11 @@ class PlayerController extends GetxController{
             )
           )
         ).then((value){
-          if(currentTrack==0){
+          if(currentTrack==0&&!isPlaying){
             play(0);
           }
         });
+        songs.value=[...songs.value, song];
       }
       else{
         Get.showSnackbar(
@@ -175,10 +182,12 @@ class PlayerController extends GetxController{
   void onInit() {
     _playing.bindStream(player.playingStream);
     position.bindStream(player.positionStream.map((event) => event.inMilliseconds.toDouble()));
+    loomMode.bindStream(player.loopModeStream);
     player.setAudioSource(playList);
-    player.currentIndexStream.listen((event) {
+    player.currentIndexStream.listen((event) async{
       if(event!=null&&event!=currentTrack){
         currentTrack=event;
+        _autoPageChange=true;
         pageController.move(currentTrack);
       }
     });
@@ -215,6 +224,11 @@ class PlayerController extends GetxController{
     await Get.bottomSheet(
       SavePlayListSheet(songs: songs.value,)
     );
+  }
+
+  void toggleLoopMode() {
+    int i = _loopModes.indexOf(player.loopMode);
+    player.setLoopMode(i==2?_loopModes[0]:_loopModes[i+1]);
   }
 
 }

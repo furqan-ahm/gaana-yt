@@ -16,7 +16,11 @@ class DownloadController extends GetxController{
 
   Future downloadSong(Song song) async{
     final manifest = await yt.videos.streamsClient.getManifest(song.videoId);
-    var streamInfo = manifest.audioOnly.first;
+    final list = manifest.audioOnly.toList();
+    list.sort(
+      (a,b)=>b.bitrate.compareTo(a.bitrate)
+    );
+    var streamInfo = list.first;
 
     if(streamInfo != null){
       var stream = yt.videos.streamsClient.get(streamInfo);
