@@ -22,9 +22,6 @@ const MainScreen({ Key? key }) : super(key: key);
       () {
         return Scaffold(
           extendBody: true,
-          drawer: Drawer(
-
-          ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.transparent,
             selectedItemColor: primaryColor,
@@ -75,19 +72,6 @@ const MainScreen({ Key? key }) : super(key: key);
                   ),
                 ),
               ),
-              SafeArea(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(height: 30,),
-                    Builder(
-                      builder: (context) {
-                        return IconButton(onPressed: (){Scaffold.of(context).openDrawer();}, icon: Icon(Icons.more_vert));
-                      }
-                    ),
-                  ],
-                )
-              )
             ],
           ),
         );
