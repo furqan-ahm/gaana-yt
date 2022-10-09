@@ -15,9 +15,9 @@ A simplistic music player app which allows you to play songs or audio of any vid
 
 ## Screenshots
 
-![Home](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/home.png)
-![Library](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/library.png)
-![Player](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/player.png)
+![Home](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/home.png | width=100)
+![Library](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/library.png | width=100)
+![Player](https://github.com/furqan-ahm/gaana-yt/blob/main/screenshots/player.png | width=100)
 
 
 ## Roadmap
