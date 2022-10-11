@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gaana/constants.dart';
 import 'package:gaana/controllers/searchController.dart';
-import 'package:gaana/models/songModel.dart';
-import 'package:gaana/player.dart';
 import 'package:gaana/widgets/songTile.dart';
 import 'package:get/get.dart';
 
