@@ -33,9 +33,16 @@ const PlayerControls({ Key? key }) : super(key: key);
               child: controller.songLoading.value?const CircularProgressIndicator(color: Colors.white,):Icon(!controller.isPlaying?Icons.play_arrow:Icons.pause, color: Colors.white, size: 42,),
             ),
             IconButton(onPressed: (){controller.forward();}, icon: const Icon(Icons.fast_forward, size: 37,)),
-            IconButton(onPressed: (){
-              controller.addToFav();
-            }, icon: const Icon(Icons.favorite_outline, size: 26,)),
+            IconButton(
+              onPressed: (){
+                controller.addToFav();
+              }, 
+              icon: Icon(
+                !controller.isFavorite?Icons.favorite_outline:Icons.favorite, 
+                size: 26,
+                color: !controller.isFavorite?primaryColor:null,
+              )
+            ),
           ],
         );
       }
