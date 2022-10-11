@@ -30,13 +30,17 @@ class PlayerController extends GetxController{
   final Rx<LoopMode> loomMode=Rx<LoopMode>(LoopMode.off);
 
   late StreamSubscription playerStateSub;
-  int currentTrack = 0;
+  RxInt currentTrack = 0.obs;
   late ConcatenatingAudioSource playList = ConcatenatingAudioSource(children: []);  
   
   SwiperController pageController= SwiperController();
 
-  Song get currentSong => songs.value[currentTrack];
+  Song get currentSong => songs.value[currentTrack.value];
   bool get isPlaying => _playing.value;
+
+  bool get isFavorite{
+    return currentSong.isOffline;
+  }
   
   bool _autoPageChange=false;
 
@@ -145,7 +149,7 @@ class PlayerController extends GetxController{
   }
 
   play(int index)async{
-    currentTrack=index;
+    currentTrack.value=index;
     await player.seek(Duration.zero, index: index);
     player.play();
   }
@@ -157,7 +161,7 @@ class PlayerController extends GetxController{
     trackMaxPosition.value=1.0;
     pageController.move(0);
     songs.value=[];
-    currentTrack=0;
+    currentTrack.value=0;
   }
 
   
@@ -183,9 +187,9 @@ class PlayerController extends GetxController{
     player.setAudioSource(playList);
     player.currentIndexStream.listen((event) async{
       if(event!=null&&event!=currentTrack){
-        currentTrack=event;
+        currentTrack.value=event;
         _autoPageChange=true;
-        pageController.move(currentTrack);
+        pageController.move(currentTrack.value);
       }
     });
     trackMaxPosition.bindStream(player.durationStream.map((event) => event==null?1:event.inMilliseconds.toDouble()));
