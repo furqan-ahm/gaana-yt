@@ -145,7 +145,7 @@ class PlayerController extends GetxController{
   }
 
   backward(){
-    if(currentTrack!=0)pageController.previous();
+    if(currentTrack.value!=0)pageController.previous();
   }
 
   play(int index)async{
@@ -167,6 +167,12 @@ class PlayerController extends GetxController{
   
   void dismissTrack(int index) {
     
+
+    if(playList.length==1){
+      flush();
+      return;
+    }
+
     if(player.currentIndex==index&&index==songs.value.length-1){
       print('last');
       player.seekToPrevious();
@@ -186,7 +192,7 @@ class PlayerController extends GetxController{
     loomMode.bindStream(player.loopModeStream);
     player.setAudioSource(playList);
     player.currentIndexStream.listen((event) async{
-      if(event!=null&&event!=currentTrack){
+      if(event!=null&&event!=currentTrack.value){
         currentTrack.value=event;
         _autoPageChange=true;
         pageController.move(currentTrack.value);
