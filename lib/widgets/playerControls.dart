@@ -24,7 +24,7 @@ const PlayerControls({ Key? key }) : super(key: key);
                 color: controller.loomMode.value==LoopMode.off?null:primaryColor,
               )
             ),
-            IconButton(onPressed: (){controller.backward();}, icon: Icon(Icons.fast_rewind, size: 37,)),
+            IconButton(onPressed: (){controller.backward();}, icon: const Icon(Icons.fast_rewind, size: 37,)),
             FloatingActionButton.large(
               onPressed: (){
                 controller.togglePlay();
@@ -40,7 +40,7 @@ const PlayerControls({ Key? key }) : super(key: key);
               icon: Icon(
                 !controller.isFavorite?Icons.favorite_outline:Icons.favorite, 
                 size: 26,
-                color: !controller.isFavorite?primaryColor:null,
+                color: controller.isFavorite?primaryColor:null,
               )
             ),
           ],
