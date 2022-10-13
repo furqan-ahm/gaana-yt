@@ -39,7 +39,8 @@ class PlayerController extends GetxController{
   bool get isPlaying => _playing.value;
 
   bool get isFavorite{
-    return currentSong.isOffline;
+    final fav = Get.find<LibraryController>().songs.value.where((element) => element.videoId==currentSong.videoId);
+    return fav.isNotEmpty;
   }
   
   bool _autoPageChange=false;
