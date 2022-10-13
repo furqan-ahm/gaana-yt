@@ -72,7 +72,23 @@ const LibraryScreen({ Key? key }) : super(key: key);
                           Image.network(song.thumbnailMax, width: 60, height: 60, fit: BoxFit.cover,),
                         ),
                         title: Text(song.title, maxLines: 2, overflow: TextOverflow.ellipsis,),
-                        trailing: IconButton(onPressed: (){song.isOffline?controller.delete(index):controller.download(index);}, icon: Icon(song.isOffline?Icons.delete:Icons.download)),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            song.isOffline?Container():IconButton(
+                              icon: Icon(Icons.download),
+                              onPressed: (){
+                                controller.download(index);
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: (){
+                                controller.delete(index);
+                              },
+                            ),
+                          ],
+                        ),
                         onTap: (){
                           Get.find<PlayerController>().addSong(song);
                         },
