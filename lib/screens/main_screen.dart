@@ -4,6 +4,7 @@ import 'package:gaana/controllers/viewController.dart';
 import 'package:gaana/screens/pages/library_screen.dart';
 import 'package:gaana/screens/pages/home_screen.dart';
 import 'package:gaana/screens/pages/player_screen.dart';
+import 'package:gaana/widgets/downloadsFloatingButton.dart';
 import 'package:gaana/widgets/navPlayerItem.dart';
 import 'package:gaana/widgets/playerFloatingButton.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,17 @@ const MainScreen({ Key? key }) : super(key: key);
       () {
         return Scaffold(
           extendBody: true,
-          floatingActionButton: controller.currentIndex.value==1?Container():const PlayerFloatingButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                controller.currentIndex.value==2?const DownloadsFloatingButton():const SizedBox.shrink(),
+                controller.currentIndex.value==1?const SizedBox.shrink():const PlayerFloatingButton(),
+              ],
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.transparent,
             selectedItemColor: primaryColor,

@@ -109,17 +109,19 @@ class LibraryController extends GetxController{
   void download(int index) async{
     if(!downloading.value.contains(songs.value[index].videoId)){
       downloading.value=[...downloading.value, songs.value[index].videoId];
-      await Get.find<DownloadController>().downloadSong(songs.value[index]);
-      await favBox.delete(songs.value[index].videoId);
-      await favBox.put(songs.value[index].videoId,songs.value[index].toMap());
-      
-      downloading.value.remove(songs.value[index].videoId);
-      downloading.value=[...downloading.value];
-      songs.value=[...songs.value];
-      print('done');
+      await Get.find<DownloadController>().downloadSong(songs.value[index], (){_downloadComplete(index);});
     }
   }
 
+  void _downloadComplete(int index) async{
+    await favBox.delete(songs.value[index].videoId);
+    await favBox.put(songs.value[index].videoId,songs.value[index].toMap());
+      
+    downloading.value.remove(songs.value[index].videoId);
+    downloading.value=[...downloading.value];
+    songs.value=[...songs.value];
+    print('done');
+  }
 
 
 }

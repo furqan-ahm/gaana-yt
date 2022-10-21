@@ -11,10 +11,11 @@ import '../models/songModel.dart';
 class DownloadController extends GetxController{
 
   late Directory appDirectory;
-  
 
+  late Rx<List<Song>> downloadingSongs=Rx<List<Song>>([]);
+  late Rx<Map<String, double>> downloadingSongsProgress = Rx<Map<String, double>>({});
 
-  Future downloadSong(Song song) async{
+  Future downloadSong(Song song, Function? onComplete) async{
     final manifest = await yt.videos.streamsClient.getManifest(song.videoId);
     final list = manifest.audioOnly.toList();
     list.sort(
@@ -28,18 +29,32 @@ class DownloadController extends GetxController{
       var file = File('${appDirectory.path}/${song.videoId}.mp3');
       var fileStream = file.openWrite(mode: FileMode.write);
 
-      
-      await stream.pipe(fileStream);
-      
-      await fileStream.flush();
-      await fileStream.close();
-      
-      final thumbnail =await downloadThumbnail(song);
+      final total = streamInfo.size.totalBytes;
+      double progress = 0;
+      stream.listen((event) {
+        progress += event.length/total;
 
-      song.thumbnailMax=thumbnail;
+        //no idea if this works but worth a try
+        downloadingSongsProgress.value[song.videoId]=progress;
+        downloadingSongsProgress.refresh();
+        print(progress);
+        fileStream.add(event);
+      }).onDone(() async{
+        await fileStream.flush();
+        await fileStream.close();
+        
+        final thumbnail =await downloadThumbnail(song);
+        song.thumbnailMax=thumbnail;
 
-      song.path = '${appDirectory.path}/${song.videoId}.mp3';
-      return '${appDirectory.path}/${song.videoId}.mp3';
+        song.path = '${appDirectory.path}/${song.videoId}.mp3';
+        onComplete==null?null:onComplete();
+      });
+      
+      // await stream.pipe(fileStream);
+      
+      // await fileStream.flush();
+      // await fileStream.close();
+      //song.path = '${appDirectory.path}/${song.videoId}.mp3';
     }
   }
 
