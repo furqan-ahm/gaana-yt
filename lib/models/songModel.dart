@@ -8,11 +8,11 @@ class Song {
   String? path;
   String thumbnailMed;
   String thumbnailMax;
+  String? offlineThumbnail;
 
   late Uri audioUri;
 
-
-  bool get isOffline => path!=null;
+  bool get isOffline => path != null;
 
   Song({
     required this.videoId,
@@ -22,6 +22,7 @@ class Song {
     required this.thumbnailMax,
     required this.duration,
     this.path,
+    this.offlineThumbnail,
   });
 
   static Song fromVideo(Video vid) {
@@ -35,22 +36,21 @@ class Song {
     );
   }
 
+  String get length {
+    int seconds = duration == null ? 0 : duration!.inSeconds;
+    int minutes = seconds ~/ 60;
+    int hours = minutes ~/ 60;
 
-  String get length{
-    int seconds = duration==null?0:duration!.inSeconds;
-    int minutes = seconds~/60;
-    int hours = minutes~/60;
+    seconds = seconds % 60;
+    minutes = minutes % 60;
+    hours = hours;
 
-    seconds=seconds%60;
-    minutes=minutes%60;
-    hours=hours;
-
-    final result ='${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-    if(hours!=0)return '${hours.toString().padLeft(2, '0')}:$result';
+    final result =
+        '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    if (hours != 0) return '${hours.toString().padLeft(2, '0')}:$result';
 
     return result;
   }
-
 
   static Song fromMap(Map data) {
     return Song(
@@ -60,9 +60,10 @@ class Song {
         title: data['title'],
         thumbnailMed: data['thumbnailMed'],
         thumbnailMax: data['thumbnailMax'],
-        duration: Duration(milliseconds: data['duration'],
-         
-      ));
+        offlineThumbnail: data['offlineThumbnail'],
+        duration: Duration(
+          milliseconds: data['duration'],
+        ));
   }
 
   toMap() {
@@ -70,10 +71,12 @@ class Song {
       'id': videoId,
       'url': url,
       'path': path,
-      'title':title,
-      'thumbnailMed':thumbnailMed,
-      'thumbnailMax':thumbnailMax,
-      'duration':duration!.inMilliseconds
+      'title': title,
+      'thumbnailMed': thumbnailMed,
+      'thumbnailMax': thumbnailMax,
+      'offlineThumbnail':offlineThumbnail,
+      'duration': duration!.inMilliseconds
     };
   }
+
 }

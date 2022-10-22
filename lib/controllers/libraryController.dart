@@ -98,10 +98,11 @@ class LibraryController extends GetxController{
 
 
   void delete(int index)async{
-    await favBox.delete(songs.value[index].videoId);
     if(songs.value[index].isOffline){
       File(songs.value[index].path!).exists().then((value) {if(value)File(songs.value[index].path!).delete();});
     }
+    await favBox.delete(songs.value[index].videoId);
+    songs.value[index].path=null;
     songs.value.removeAt(index);
     songs.value=[...songs.value];
   }

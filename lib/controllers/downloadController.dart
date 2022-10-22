@@ -26,6 +26,9 @@ class DownloadController extends GetxController{
     if(streamInfo != null){
       var stream = yt.videos.streamsClient.get(streamInfo);
 
+      downloadingSongs.value.add(song);
+      downloadingSongs.refresh();
+
       var file = File('${appDirectory.path}/${song.videoId}.mp3');
       var fileStream = file.openWrite(mode: FileMode.write);
 
@@ -37,14 +40,18 @@ class DownloadController extends GetxController{
         //no idea if this works but worth a try
         downloadingSongsProgress.value[song.videoId]=progress;
         downloadingSongsProgress.refresh();
-        print(progress);
         fileStream.add(event);
       }).onDone(() async{
         await fileStream.flush();
         await fileStream.close();
         
         final thumbnail =await downloadThumbnail(song);
-        song.thumbnailMax=thumbnail;
+        song.offlineThumbnail=thumbnail;
+
+
+        downloadingSongs.value.remove(song);
+        downloadingSongsProgress.value.remove(song.videoId);
+        downloadingSongs.refresh();
 
         song.path = '${appDirectory.path}/${song.videoId}.mp3';
         onComplete==null?null:onComplete();
