@@ -80,7 +80,7 @@ class _PlayListCardState extends State<PlayListCard> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
             child: InkWell(
               onTap: () => setState(() => selected = !selected),
               child: Icon(selected ? Icons.close : Icons.more_horiz)),

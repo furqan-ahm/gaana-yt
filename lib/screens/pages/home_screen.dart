@@ -17,7 +17,7 @@ const HomeScreen({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             const SizedBox(
@@ -25,18 +25,18 @@ const HomeScreen({ Key? key }) : super(key: key);
             ),
             Center(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Gaana ', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),),
+                    const Text('Gaana ', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                       decoration: BoxDecoration(
                         color: primaryColor,
                         borderRadius: BorderRadius.circular(10)
                       ),
-                      child: Text('YT', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),)
+                      child: const Text('YT', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),)
                     ),
                   ],
                 ),
@@ -47,8 +47,8 @@ const HomeScreen({ Key? key }) : super(key: key);
               children: [
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade700,
                       borderRadius: BorderRadius.circular(20)
@@ -82,7 +82,7 @@ const HomeScreen({ Key? key }) : super(key: key);
                 :ListView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: controller.results.length,
                       itemBuilder: (context, index)=>SongTile(song: controller.results[index])
                     );

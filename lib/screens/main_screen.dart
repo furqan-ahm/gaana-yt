@@ -8,7 +8,6 @@ import 'package:gaana/widgets/downloadsFloatingButton.dart';
 import 'package:gaana/widgets/navPlayerItem.dart';
 import 'package:gaana/widgets/playerFloatingButton.dart';
 import 'package:get/get.dart';
-import 'package:music_visualizer/music_visualizer.dart';
 
 
 class MainScreen extends GetView<ViewController> {

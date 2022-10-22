@@ -22,7 +22,7 @@ const NavPlayerItem({ Key? key}) : super(key: key);
           height: 40,
           width: 80,
           child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             transitionBuilder: (child, animation) => ScaleTransition(scale: animation,child: child,),
             child: controller.isPlaying?
             MusicVisualizer(colors: [primaryColor, primaryColor, primaryColor, primaryColor], duration: const [900, 700, 600, 800, 500], barCount: 5)

@@ -24,6 +24,6 @@ class _LikeOverlayState extends State<LikeOverlay> with SingleTickerProviderStat
   
   @override
   Widget build(BuildContext context) {
-    return Align(alignment:Alignment.center+Alignment(0,-0.4),child: Lottie.asset('assets/anims/like.json',controller: animController, width: 200, height: 200));
+    return Align(alignment:Alignment.center+const Alignment(0,-0.4),child: Lottie.asset('assets/anims/like.json',controller: animController, width: 200, height: 200));
   }
 }

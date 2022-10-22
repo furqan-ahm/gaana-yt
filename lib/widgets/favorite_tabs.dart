@@ -74,7 +74,7 @@ const FavoriteTabs({ Key? key }) : super(key: key);
               child: Text('All', style: TextStyle(fontSize: 18, color: !controller.offlineOnly.value?Colors.red:Colors.white),)
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               height: 20,
               width: 2,
               color: Colors.white,

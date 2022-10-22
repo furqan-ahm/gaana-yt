@@ -29,7 +29,7 @@ class SongTile extends GetWidget<PlayerController> {
                 height: 60,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) {
-                  return Icon(Icons.music_note);
+                  return const Icon(Icons.music_note);
                 },
               )
             ),
