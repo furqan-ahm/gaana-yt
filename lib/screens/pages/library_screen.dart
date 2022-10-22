@@ -55,6 +55,14 @@ const LibraryScreen({ Key? key }) : super(key: key);
             Obx(
               () {
                 final songs = controller.getSongs;
+
+                if(songs.isEmpty){
+                  return const Center(
+                    child: Text('You dont have any favorites yet'),
+                  );
+                }
+
+
                 return ListView.builder(
                   shrinkWrap: true,
                   primary: false,
