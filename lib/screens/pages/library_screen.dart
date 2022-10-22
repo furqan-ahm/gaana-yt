@@ -57,8 +57,11 @@ const LibraryScreen({ Key? key }) : super(key: key);
                 final songs = controller.getSongs;
 
                 if(songs.isEmpty){
-                  return const Center(
-                    child: Text('You dont have any favorites yet'),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Center(
+                      child: Text('You dont have any favorites yet'),
+                    ),
                   );
                 }
 
@@ -76,7 +79,7 @@ const LibraryScreen({ Key? key }) : super(key: key);
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: song.isOffline?
-                          Image.file(File(song.thumbnailMax), width: 60, height: 60, fit: BoxFit.cover,):
+                          Image.file(File(song.offlineThumbnail!), width: 60, height: 60, fit: BoxFit.cover,):
                           Image.network(song.thumbnailMax, width: 60, height: 60, fit: BoxFit.cover,),
                         ),
                         title: Text(song.title, maxLines: 2, overflow: TextOverflow.ellipsis,),
