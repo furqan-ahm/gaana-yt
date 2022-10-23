@@ -92,7 +92,7 @@ class PlayerController extends GetxController{
           tag: MediaItem(
             id: song.videoId,
             title: song.title,
-            artUri: song.isOffline?Uri.file(song.thumbnailMax):Uri.parse(song.thumbnailMed)
+            artUri: song.isOffline?Uri.file(song.offlineThumbnail!):Uri.parse(song.thumbnailMed)
           )
         )
       ).then((value){
