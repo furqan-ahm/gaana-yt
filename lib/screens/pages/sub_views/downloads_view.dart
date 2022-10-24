@@ -10,8 +10,6 @@ const DownloadsView({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
         title: const Text('Downloads', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
         centerTitle: true,
       ),
