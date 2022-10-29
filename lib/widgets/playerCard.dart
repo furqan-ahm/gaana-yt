@@ -21,9 +21,7 @@ const PlayerCard({ Key? key, required this.song }) : super(key: key);
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Container(
-            child: song.isOffline?Image.file(File(song.offlineThumbnail!), fit: BoxFit.cover,):Image.network(song.thumbnailMax, fit: BoxFit.cover,)
-          ),
+          child: song.isOffline?Image.file(File(song.offlineThumbnail!), fit: BoxFit.cover,):Image.network(song.thumbnailMax, fit: BoxFit.cover,),
         ),
       ),
     );

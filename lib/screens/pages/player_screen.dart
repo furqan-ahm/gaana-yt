@@ -1,7 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:gaana/constants.dart';
-import 'package:gaana/controllers/downloadController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/widgets/like_overlay.dart';
 import 'package:gaana/widgets/playerCard.dart';

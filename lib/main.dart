@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(),
       initialBinding: GlobalBindings(),
       debugShowCheckedModeBanner: false,
-      home: DownloadsView()//const MainScreen(),
+      home: const MainScreen(),
     );
   }
 }

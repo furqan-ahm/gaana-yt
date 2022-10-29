@@ -5,6 +5,7 @@ import 'package:gaana/controllers/libraryController.dart';
 import 'package:gaana/controllers/playerController.dart';
 import 'package:gaana/widgets/playList_card.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 
 class LibraryScreen extends GetView<LibraryController> {
@@ -85,7 +86,18 @@ const LibraryScreen({ Key? key }) : super(key: key);
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          controller.downloading.value.contains(song.videoId)&&!song.isOffline?Container():IconButton(
+                          (controller.downloading.value.contains(song.videoId))||(song.isOffline)?
+                          (song.isOffline)?
+                            IconButton(
+                              onPressed: (){
+                                Share.shareXFiles([XFile(song.path!)]);
+                              },
+                              icon: const Icon(Icons.share),
+                            )
+                            :
+                            const SizedBox.shrink()
+                          :
+                          IconButton(
                             icon: const Icon(Icons.download),
                             onPressed: (){
                               controller.download(index);
